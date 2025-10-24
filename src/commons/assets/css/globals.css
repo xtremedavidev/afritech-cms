@@ -1,0 +1,67 @@
+@import "./fonts.css";
+@import "tailwindcss";
+@import "./colors.css";
+@import "./shadcn.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+.heading {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 700;
+}
+
+body * {
+    /* @apply transition-colors duration-500;*/
+}
+
+.mini-scrollbar {
+    overflow-y: auto;
+    padding-right: 24px;
+    scrollbar-width: thin; /* "auto" or "thin" for Chrome/Edge */
+    scrollbar-color: #4a556852 #151414; /* thumb and track colors */
+}
+
+/* Light theme autofill styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
+    background-color: white !important;
+    color: black !important;
+}
+
+/* Dark theme autofill styles */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #1f2937 inset !important;
+    -webkit-text-fill-color: white !important;
+    background-color: #1f2937 !important;
+    color: white !important;
+    border: 1px solid #4b5563 !important; /* Optional: Add border for better visibility */
+}
+
+/* Optional: For other browsers that support autofill */
+input:autofill {
+    background-color: white !important;
+    color: black !important;
+}
+
+.dark input:autofill {
+    background-color: #1f2937 !important;
+    color: white !important;
+}
+
+/* Custom animation for loading progress bar */
+@keyframes loading {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}

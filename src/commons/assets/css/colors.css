@@ -1,0 +1,48 @@
+
+/*noinspection CssInvalidAtRule*/
+@theme {
+    --color-primary: var(--primary);
+    --color-primary-faded: var(--primary-faded);
+    --color-dark: var(--dark);
+    --color-secondary: var(--secondary);
+    --color-background: var(--background);
+    --color-background-50: var(--background-50);
+    --color-text: var(--text);
+    --color-text-faded: var(--text-faded);
+    --color-card: var(--card);
+    --color-outline: var(--outline);
+    --color-skeleton: var(--background-50);
+}
+
+/* Light mode */
+:root {
+    --primary: #884FFF;
+    --primary-faded: #c0a6f8;
+    --dark: #060A16;
+    --secondary: #243874;
+    --background: #ffffff;
+    --background-50: #dfdfdf;
+    --popover: #dfdfdf;
+    --text: #000000;
+    --text-faded: #424242;
+    --card: #f9f9f9;
+    --outline: #00000033;
+    --input: #000000ff;
+}
+
+/* Dark mode*/
+:root[data-theme="dark"] {
+    --primary: #884FFF;
+    --primary-faded: #c0a6f8;
+    --dark: #060A16;
+    --secondary: #243874;
+    --background: #0b0b0b;
+    --background-50: #131723;
+    --popover: #131723;
+    --text: #ffffff;
+    --text-faded: #d6d6d6;
+    --card: #1E1E1E;
+    --outline: #FFFFFF33;
+    --input: #FFFFFF33
+}
+
