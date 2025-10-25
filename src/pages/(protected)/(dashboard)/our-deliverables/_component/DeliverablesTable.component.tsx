@@ -16,6 +16,30 @@ export function statusColor(status: IDeliverable["status"], text?: boolean) {
 	}
 }
 
+function DeliverableActionButtons({ deliverable }: { deliverable: IDeliverable }) {
+	const { mutate, isPending } = useDeleteDeliverable(deliverable?._id)
+	const router = useRouter()
+	
+	return (
+		<div className="flex w-full items-center justify-center gap-x-2 px-4">
+			<CustomButton
+				variant={"outlined"}
+				onClick={() => router.push(`/our-deliverables/${deliverable?._id}/edit`)}
+				startIcon={<HugeIcons.Edit02Icon />}
+				className={""}
+				text={"Edit"}
+			/>
+			<CustomButton
+				loading={isPending}
+				onClick={() => mutate()}
+				startIcon={<HugeIcons.Delete01Icon />}
+				className={"bg-red-800 text-white"}
+				text={"Delete"}
+			/>
+		</div>
+	)
+}
+
 export default function DeliverablesTable({ data }: { data: IDeliverable[] }) {
 	const router = useRouter()
 
@@ -50,25 +74,7 @@ export default function DeliverablesTable({ data }: { data: IDeliverable[] }) {
 			header: "",
 			cell: ({ row }) => {
 				const deliverable = row.original as IDeliverable
-				const { mutate, isPending } = useDeleteDeliverable(deliverable?._id)
-				return (
-					<div className="flex w-full items-center justify-center gap-x-2 px-4">
-						<CustomButton
-							variant={"outlined"}
-							onClick={() => router.push(`/our-deliverables/${deliverable?._id}/edit`)}
-							startIcon={<HugeIcons.Edit02Icon />}
-							className={""}
-							text={"Edit"}
-						/>
-						<CustomButton
-							loading={isPending}
-							onClick={() => mutate()}
-							startIcon={<HugeIcons.Delete01Icon />}
-							className={"bg-red-800 text-white"}
-							text={"Delete"}
-						/>
-					</div>
-				)
+				return <DeliverableActionButtons deliverable={deliverable} />
 			},
 		},
 	]

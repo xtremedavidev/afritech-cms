@@ -16,10 +16,31 @@ export function statusColor(status: IService["isActive"], text?: boolean) {
 	}
 }
 
-export default function ServicesTable({ data }: { data: IService[] }) {
-	const { mutate: deleteService } = useDeleteService()
+function ServiceActionButtons({ service }: { service: IService }) {
+	const { mutate: deleteService, isPending } = useDeleteService(service?.id)
 	const router = useRouter()
+	
+	return (
+		<div className="flex w-full items-center justify-center gap-x-2 px-4">
+			<CustomButton
+				variant={"outlined"}
+				onClick={() => router.push(`/services/${service?.id}/edit`)}
+				startIcon={<HugeIcons.Edit02Icon />}
+				className={""}
+				text={"Edit"}
+			/>
+			<CustomButton
+				loading={isPending}
+				onClick={() => deleteService()}
+				startIcon={<HugeIcons.Delete01Icon />}
+				className={"bg-red-800 text-white"}
+				text={"Delete"}
+			/>
+		</div>
+	)
+}
 
+export default function ServicesTable({ data }: { data: IService[] }) {
 	const columns: ColumnDef<IService>[] = [
 		{
 			accessorKey: "title",
@@ -48,25 +69,7 @@ export default function ServicesTable({ data }: { data: IService[] }) {
 			header: "",
 			cell: ({ row }) => {
 				const service = row.original as IService
-				const { mutate: deleteService, isPending } = useDeleteService(service?.id)
-				return (
-					<div className="flex w-full items-center justify-center gap-x-2 px-4">
-						<CustomButton
-							variant={"outlined"}
-							onClick={() => router.push(`/services/${service?.id}/edit`)}
-							startIcon={<HugeIcons.Edit02Icon />}
-							className={""}
-							text={"Edit"}
-						/>
-						<CustomButton
-							loading={isPending}
-							onClick={() => deleteService()}
-							startIcon={<HugeIcons.Delete01Icon />}
-							className={"bg-red-800 text-white"}
-							text={"Delete"}
-						/>
-					</div>
-				)
+				return <ServiceActionButtons service={service} />
 			},
 		},
 	]

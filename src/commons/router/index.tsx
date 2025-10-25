@@ -54,10 +54,10 @@ export const router = useRouter
 	return window.location.replace(url);
 };*/
 
-export const setPageTitle = (title: string) => {
+export const usePageTitle = (title: string) => {
 	return useEffect(() => {
 		document.title = `${title} - MyChange`
-	}, [])
+	}, [title])
 }
 
 export default RouterSetup

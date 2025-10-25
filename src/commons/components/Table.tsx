@@ -12,7 +12,7 @@ interface Props<T = any> {
 	onRowClick?: (row: T) => void
 }
 
-export const renderTable = <T,>({ rows, data, filter, count, hideHeader }: Props<T>) => {
+export const RenderTable = <T,>({ rows, data, filter, count, hideHeader }: Props<T>) => {
 	const { darkMode } = useSettingsStore()
 	return (
 		<ThemeProvider theme={MuiTheme}>

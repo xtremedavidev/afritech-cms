@@ -18,6 +18,30 @@ export function statusColor(status: IProject["status"], text?: boolean) {
 	}
 }
 
+function ProjectActionButtons({ project }: { project: IProject }) {
+	const { mutate: deleteProject, isPending } = useDeleteProject(project?.id)
+	const router = useRouter()
+	
+	return (
+		<div className="flex w-full items-center justify-center gap-x-2 px-4">
+			<CustomButton
+				variant={"outlined"}
+				onClick={() => router.push(`/projects/${project?.id}/edit`)}
+				startIcon={<HugeIcons.Edit02Icon />}
+				className={""}
+				text={"Edit"}
+			/>
+			<CustomButton
+				loading={isPending}
+				onClick={() => deleteProject()}
+				startIcon={<HugeIcons.Delete01Icon />}
+				className={"bg-red-800 text-white"}
+				text={"Delete"}
+			/>
+		</div>
+	)
+}
+
 export default function ProjectsTable({ data }: { data: IProject[] }) {
 	const { mutate: deleteProject } = useDeleteProject()
 	const router = useRouter()
@@ -57,25 +81,7 @@ export default function ProjectsTable({ data }: { data: IProject[] }) {
 			header: "",
 			cell: ({ row }) => {
 				const project = row.original as IProject
-				const { mutate: deleteProject, isPending } = useDeleteProject(project?.id)
-				return (
-					<div className="flex w-full items-center justify-center gap-x-2 px-4">
-						<CustomButton
-							variant={"outlined"}
-							onClick={() => router.push(`/projects/${project?.id}/edit`)}
-							startIcon={<HugeIcons.Edit02Icon />}
-							className={""}
-							text={"Edit"}
-						/>
-						<CustomButton
-							loading={isPending}
-							onClick={() => deleteProject()}
-							startIcon={<HugeIcons.Delete01Icon />}
-							className={"bg-red-800 text-white"}
-							text={"Delete"}
-						/>
-					</div>
-				)
+				return <ProjectActionButtons project={project} />
 			},
 		},
 	]

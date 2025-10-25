@@ -18,10 +18,31 @@ export function statusColor(status: IBlog["status"], text?: boolean) {
 	}
 }
 
-export default function BlogsTable({ data }: { data: IBlog[] }) {
-	const { mutate: deleteBlog } = useDeleteBlog()
+function BlogActionButtons({ blog }: { blog: IBlog }) {
+	const { mutate: deleteBlog, isPending } = useDeleteBlog(blog?.id)
 	const router = useRouter()
+	
+	return (
+		<div className="flex w-full items-center justify-center px-4 gap-x-2">
+			<CustomButton
+				variant={"outlined"}
+				onClick={() => router.push(`/blogs/${blog?.id}/edit`)}
+				startIcon={<HugeIcons.Edit02Icon />}
+				className={""}
+				text={"Edit"}
+			/>
+			<CustomButton
+				loading={isPending}
+				onClick={() => deleteBlog()}
+				startIcon={<HugeIcons.Delete01Icon />}
+				className={"bg-red-800 text-white"}
+				text={"Delete"}
+			/>
+		</div>
+	)
+}
 
+export default function BlogsTable({ data }: { data: IBlog[] }) {
 	const columns: ColumnDef<IBlog>[] = [
 		{
 			accessorKey: "title",
@@ -57,25 +78,7 @@ export default function BlogsTable({ data }: { data: IBlog[] }) {
 			header: "",
 			cell: ({ row }) => {
 				const blog = row.original as IBlog
-				const { mutate: deleteBlog, isPending } = useDeleteBlog(blog?.id)
-				return (
-					<div className="flex w-full items-center justify-center px-4 gap-x-2">
-						<CustomButton
-							variant={"outlined"}
-							onClick={() => router.push(`/blogs/${blog?.id}/edit`)}
-							startIcon={<HugeIcons.Edit02Icon />}
-							className={""}
-							text={"Edit"}
-						/>
-						<CustomButton
-							loading={isPending}
-							onClick={() => deleteBlog()}
-							startIcon={<HugeIcons.Delete01Icon />}
-							className={"bg-red-800 text-white"}
-							text={"Delete"}
-						/>
-					</div>
-				)
+				return <BlogActionButtons blog={blog} />
 			},
 		},
 	]

@@ -18,9 +18,31 @@ export function statusColor(status: ITestimonial["status"], text?: boolean) {
 	}
 }
 
-export default function TestimonialsTable({ data }: { data: ITestimonial[] }) {
+function TestimonialActionButtons({ testimonial }: { testimonial: ITestimonial }) {
+	const { mutate: deleteTestimonial, isPending } = useDeleteTestimonial(testimonial?._id)
 	const router = useRouter()
+	
+	return (
+		<div className="flex w-full items-center justify-center gap-x-2 px-4">
+			<CustomButton
+				variant={"outlined"}
+				onClick={() => router.push(`/testimonials/${testimonial?._id}/edit`)}
+				startIcon={<HugeIcons.Edit02Icon />}
+				className={""}
+				text={"Edit"}
+			/>
+			<CustomButton
+				loading={isPending}
+				onClick={() => deleteTestimonial()}
+				startIcon={<HugeIcons.Delete01Icon />}
+				className={"bg-red-800 text-white"}
+				text={"Delete"}
+			/>
+		</div>
+	)
+}
 
+export default function TestimonialsTable({ data }: { data: ITestimonial[] }) {
 	const columns: ColumnDef<ITestimonial>[] = [
 		{
 			accessorKey: "username",
@@ -44,25 +66,7 @@ export default function TestimonialsTable({ data }: { data: ITestimonial[] }) {
 			header: "",
 			cell: ({ row }) => {
 				const testimonial = row.original as ITestimonial
-				const { mutate: deleteTestimonial, isPending } = useDeleteTestimonial(testimonial?._id)
-				return (
-					<div className="flex w-full items-center justify-center gap-x-2 px-4">
-						<CustomButton
-							variant={"outlined"}
-							onClick={() => router.push(`/testimonials/${testimonial?._id}/edit`)}
-							startIcon={<HugeIcons.Edit02Icon />}
-							className={""}
-							text={"Edit"}
-						/>
-						<CustomButton
-							loading={isPending}
-							onClick={() => deleteTestimonial()}
-							startIcon={<HugeIcons.Delete01Icon />}
-							className={"bg-red-800 text-white"}
-							text={"Delete"}
-						/>
-					</div>
-				)
+				return <TestimonialActionButtons testimonial={testimonial} />
 			},
 		},
 	]

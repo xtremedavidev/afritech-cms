@@ -16,9 +16,31 @@ export function statusColor(status: IMetric["status"], text?: boolean) {
 	}
 }
 
-export default function MetricsTable({ data }: { data: IMetric[] }) {
+function MetricActionButtons({ metric }: { metric: IMetric }) {
+	const { mutate: deleteMetric, isPending } = useDeleteMetric(metric?._id)
 	const router = useRouter()
+	
+	return (
+		<div className="flex w-full items-center justify-center gap-x-2 px-4">
+			<CustomButton
+				variant={"outlined"}
+				onClick={() => router.push(`/home/${metric?._id}/edit`)}
+				startIcon={<HugeIcons.Edit02Icon />}
+				className={""}
+				text={"Edit"}
+			/>
+			<CustomButton
+				loading={isPending}
+				onClick={() => deleteMetric()}
+				startIcon={<HugeIcons.Delete01Icon />}
+				className={"bg-red-800 text-white"}
+				text={"Delete"}
+			/>
+		</div>
+	)
+}
 
+export default function MetricsTable({ data }: { data: IMetric[] }) {
 	const columns: ColumnDef<IMetric>[] = [
 		{
 			accessorKey: "title",
@@ -58,25 +80,7 @@ export default function MetricsTable({ data }: { data: IMetric[] }) {
 			header: "",
 			cell: ({ row }) => {
 				const metric = row.original as IMetric
-				const { mutate: deleteMetric, isPending } = useDeleteMetric(metric?._id)
-				return (
-					<div className="flex w-full items-center justify-center gap-x-2 px-4">
-						<CustomButton
-							variant={"outlined"}
-							onClick={() => router.push(`/home/${metric?._id}/edit`)}
-							startIcon={<HugeIcons.Edit02Icon />}
-							className={""}
-							text={"Edit"}
-						/>
-						<CustomButton
-							loading={isPending}
-							onClick={() => deleteMetric()}
-							startIcon={<HugeIcons.Delete01Icon />}
-							className={"bg-red-800 text-white"}
-							text={"Delete"}
-						/>
-					</div>
-				)
+				return <MetricActionButtons metric={metric} />
 			},
 		},
 	]

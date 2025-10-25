@@ -7,6 +7,30 @@ import { useRouter } from "@router"
 import { ColumnDef } from "@tanstack/react-table"
 import moment from "moment"
 
+function ProcessActionButtons({ process }: { process: IProcess }) {
+	const { mutate: deleteProcess, isPending } = useDeleteProcess(process?._id)
+	const router = useRouter()
+	
+	return (
+		<div className="flex w-full items-center justify-center gap-x-2 px-4">
+			<CustomButton
+				variant={"outlined"}
+				onClick={() => router.push(`/our-process/${process?._id}/edit`)}
+				startIcon={<HugeIcons.Edit02Icon />}
+				className={""}
+				text={"Edit"}
+			/>
+			<CustomButton
+				loading={isPending}
+				onClick={() => deleteProcess()}
+				startIcon={<HugeIcons.Delete01Icon />}
+				className={"bg-red-800 text-white"}
+				text={"Delete"}
+			/>
+		</div>
+	)
+}
+
 export default function ProcessesTable({ data }: { data: IProcess[] }) {
 	const router = useRouter()
 
@@ -33,25 +57,7 @@ export default function ProcessesTable({ data }: { data: IProcess[] }) {
 			header: "",
 			cell: ({ row }) => {
 				const process = row.original as IProcess
-				const { mutate: deleteProcess, isPending } = useDeleteProcess(process?._id)
-				return (
-					<div className="flex w-full items-center justify-center gap-x-2 px-4">
-						<CustomButton
-							variant={"outlined"}
-							onClick={() => router.push(`/our-process/${process?._id}/edit`)}
-							startIcon={<HugeIcons.Edit02Icon />}
-							className={""}
-							text={"Edit"}
-						/>
-						<CustomButton
-							loading={isPending}
-							onClick={() => deleteProcess()}
-							startIcon={<HugeIcons.Delete01Icon />}
-							className={"bg-red-800 text-white"}
-							text={"Delete"}
-						/>
-					</div>
-				)
+				return <ProcessActionButtons process={process} />
 			},
 		},
 	]

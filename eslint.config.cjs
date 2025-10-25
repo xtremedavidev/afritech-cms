@@ -12,10 +12,13 @@ module.exports = [
       }
     },
     plugins: {
-      '@typescript-eslint': require('@typescript-eslint/eslint-plugin')
+      '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
+      'react-hooks': require('eslint-plugin-react-hooks'),
+      'react-refresh': require('eslint-plugin-react-refresh')
     },
     rules: {
-      // keep this minimal; rely on plugin defaults
+      ...require('eslint-plugin-react-hooks').configs.recommended.rules,
+      'react-refresh/only-export-components': 'warn'
     }
   }
 ]
