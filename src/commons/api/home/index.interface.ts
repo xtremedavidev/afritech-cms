@@ -6,6 +6,7 @@ export type IHomeHero = {
 	companyDescription: string
 	createdAt: string
 	updatedAt: string
+	type: string
 }
 
 export type IMetric = {

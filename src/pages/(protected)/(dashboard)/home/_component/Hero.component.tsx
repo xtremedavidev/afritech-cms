@@ -41,7 +41,7 @@ export default function HomeHeroEditor({ title, subtitle, initialData }: Props) 
 
 	const handleSubmit = form.handleSubmit(
 		(data) => {
-			onSubmit({ data })
+			onSubmit({ data: { ...data, type: "hero" } })
 		},
 		(errors) => {
 			Object.entries(errors).forEach(([key, value]) => {
@@ -59,7 +59,6 @@ export default function HomeHeroEditor({ title, subtitle, initialData }: Props) 
 		form.setValue("sectionTitle", initialData.sectionTitle || "")
 		form.setValue("sectionSubtitle", initialData.sectionSubtitle || "")
 		form.setValue("description", initialData.description || "")
-		form.setValue("type", "home")
 	}, [initialData])
 
 	const renderSidebarFields = () => {

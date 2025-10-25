@@ -40,7 +40,11 @@ export default function CallToActionEditor({ title, subtitle, viewType = "create
 		(data) => {
 			loader.start()
 
-			updateCTA({ ...data, status: "published" })
+			updateCTA({ 
+				title: data.title || "", 
+				description: data.description || "", 
+				status: "published" 
+			})
 				.then((res) => toast.success("Call to action updated!"))
 				.finally(() => loader.reset())
 		},

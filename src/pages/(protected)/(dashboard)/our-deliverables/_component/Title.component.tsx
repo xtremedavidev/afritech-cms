@@ -40,7 +40,7 @@ export default function DeliverablesTitleEditor({ title, subtitle, initialData }
 
 	const handleSubmit = form.handleSubmit(
 		(data) => {
-			onSubmit({ data: { sectionTitle: data.sectionTitle, sectionSubtitle: data.description } })
+			onSubmit({ data: { sectionTitle: data.sectionTitle, sectionSubtitle: data.subtitle } })
 		},
 		(errors) => {
 			Object.entries(errors).forEach(([key, value]) => {
@@ -56,7 +56,7 @@ export default function DeliverablesTitleEditor({ title, subtitle, initialData }
 		if (!initialData) return
 
 		form.setValue("sectionTitle", initialData.sectionTitle || "")
-		form.setValue("description", initialData.description || "")
+		form.setValue("subtitle", initialData.description || "")
 	}, [initialData])
 
 	const renderSidebarFields = () => {
